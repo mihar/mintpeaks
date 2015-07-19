@@ -1,0 +1,8 @@
+{
+  "name": "mintpeaks.com",
+  "version": "0.0.1",
+  "author": "Miha Rebernik <miha@rebernik.info>",
+  "license": "MIT",
+  "dependencies": { },
+  "devDependencies": { }
+}
