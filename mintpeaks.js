@@ -62,5 +62,5 @@ debug('Tessel server listening on ' + TESSEL_SERVER_HOST + ':' + TESSEL_SERVER_P
 
 // Send over heartbeat.
 setInterval(function() {
-  io.emit('hearbeat', { mintpeaks: true, tessel: TESSEL_CONNECTED });
+  io.emit('heartbeat', { mintpeaks: true, tessel: TESSEL_CONNECTED });
 }, 2500);
