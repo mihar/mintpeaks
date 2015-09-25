@@ -1,17 +1,30 @@
+#!/usr/bin/env node
+
+require('safestart')(__dirname + '/../');
+
+var program = require('commander');
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var net = require('net');
 var debug = require('debug')('mintpeaks:server');
 
+program
+.option('-h --host', 'bind to hostname (default: 0.0.0.0)')
+.option('--tessel-port [port]', 'listen on this port for Tessel data (default: 10231)')
+.option('--http-port [port]', 'expose socket.io on this port (default: 3000)')
+.parse(process.argv);
+
 // Tessel TCP server settings.
-var TESSEL_SERVER_HOST = '0.0.0.0';
-var TESSEL_SERVER_PORT = 10231;
-var TESSEL_CONNECTED = false;
-var TESSEL_HEARTBEAT = null;
+var TESSEL_SERVER_HOST = program.host || '0.0.0.0';
+var TESSEL_SERVER_PORT = Number(program.tesselPort || 10231);
 
 // HTTP server settings.
-var HTTP_SERVER_PORT = 3000;
+var HTTP_SERVER_PORT = Number(program.httpPort || 3000);
+
+// Tessel globals.
+var TESSEL_CONNECTED = false;
+var TESSEL_HEARTBEAT = undefined;
 
 // Socket.io connection logging.
 io.on('connection', function(sckt) {
