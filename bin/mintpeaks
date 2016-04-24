@@ -56,11 +56,14 @@ net.createServer(function(sckt) {
       // Emit received data through Socket.io.
       io.emit('received_data', parsed_data);
 
+      //  Mark the tessel as connected.
+      TESSEL_CONNECTED = true;
+
       // Reset the Tessel heartbeat timer.
       clearTimeout(TESSEL_HEARTBEAT);
       TESSEL_HEARTBEAT = setTimeout(function() { TESSEL_CONNECTED = false; }, 10000);
     } catch (e) {
-      debug('ERROR: Received non JSON data from Tessel', data);
+      debug('ERROR: Received non JSON data from Tessel', data, e);
     }
   });
 

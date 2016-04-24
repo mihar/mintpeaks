@@ -1,6 +1,6 @@
 {
   "name": "mintpeaks.com",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "author": "Miha Rebernik <miha@rebernik.info>",
   "description": "mintpeaks.com tessel to socket.io proxy",
   "license": "MIT",
