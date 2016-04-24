@@ -1,4 +1,4 @@
-FROM mhart/alpine-node:0.12.7
+FROM mhart/alpine-node:4.3.0
 MAINTAINER Miha Rebernik <miha@rebernik.info>
 WORKDIR /app
 ADD . .
