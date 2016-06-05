@@ -9,6 +9,10 @@ var io = require('socket.io')(http);
 var net = require('net');
 var debug = require('debug')('mintpeaks:server');
 
+// Store last climate data in global vars.
+var temperature;
+var humidity;
+
 program
 .option('-h --host', 'bind to hostname (default: 0.0.0.0)')
 .option('--tessel-port [port]', 'listen on this port for Tessel data (default: 10231)')
@@ -40,6 +44,13 @@ http.listen(HTTP_SERVER_PORT, function() {
   debug('HTTP server listening on *:' + HTTP_SERVER_PORT);
 });
 
+app.route('/data').get(function(req, res, next) {
+  res.json({
+    temperature: temperature,
+    humidity: humidity
+  });
+});
+
 // Callback runs for each created connection.
 net.createServer(function(sckt) {
   // A connection was initiated.
@@ -52,6 +63,10 @@ net.createServer(function(sckt) {
     try {
       var parsed_data = JSON.parse(data);
       debug('Received data from Tessel', parsed_data);
+
+      // Store data for on demand fetching.
+      temperature = parsed_data.temperature;
+      humidity = parsed_data.humidity;
 
       // Emit received data through Socket.io.
       io.emit('received_data', parsed_data);
